@@ -111,7 +111,7 @@ while True:
         dat = datetime.datetime.today()
         # print(face_encoding)
         # print(known_face_encodings)
-        matches = face_recognition.compare_faces(known_face_encodings, face_encoding, 0.6)
+        matches = face_recognition.compare_faces(known_face_encodings, face_encoding, 0.4)
         name = "Unknown"
         # print(matches)
         if True in matches:
@@ -154,10 +154,12 @@ while True:
 
                 ROI = frame[top:bottom, left:right]
                 cv2.imshow("Input", ROI)
+                print(bottom - top)
+                print(right - left)
 
-            if (delta.seconds >= 15) and (status1[0] == "out of office"):
+            if (delta.seconds >= 15) and (status1[0] == "out of office") and (bottom-top) > 100 and (right - left) > 100:
                 print(delta.seconds)
-                ROI = frame[(top-40):(bottom+40), (left-40):(right+40)]
+                ROI = frame[(top):(bottom), (left):(right)]
                 cv2.imshow("Input", ROI)
                 cv2.imwrite(os.path.join(Labels_and_pathes[direct], '%s_%i.png' % (Labels_and_pathes[direct-1], x)), ROI)
                 x += 1
